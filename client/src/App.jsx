@@ -1,27 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
-import ProductForm from './components/ProductForm';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Main from '../src/views/Main'
+import ProductDetail from './components/ProductDetail';
 
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <ProductForm path="/" />
-
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Main />} path="/" default />
+          <Route element={<ProductDetail />} path="/api/products/:id" />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

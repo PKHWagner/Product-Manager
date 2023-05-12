@@ -10,9 +10,16 @@ createProduct: (req, res) => {
 
   // READ
   getAllProducts: (req, res) => {
-    Product.find()
-      .then(allProducts => res.json(allShows))
+    Product.find({})
+      .then(allProducts => res.json(allProducts))
       .catch(err => res.json(err));
+  },
+
+  // READ ONE
+  getOneProduct: (req, res) => {
+    Product.findById(req.params.id)
+      .then(viewOneProduct => res.json(viewOneProduct))
+      .catch(err => res.json(err)); 
   },
 
   // UPDATE

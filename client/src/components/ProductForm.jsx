@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ProductForm = (props) => {
+const ProductForm = ({ snowboard, setSnowboard }) => {
+
   const [brandName, setBrandName] = useState("");
   const [snowboardName, setSnowboardName] = useState("");
   const [snowboardReleaseYear, setSnowboardReleaseYear] = useState("");
@@ -11,11 +12,15 @@ const ProductForm = (props) => {
     e.preventDefault();
 
     axios.post("http://localhost:8000/api/products", {
-      brandName, snowboardName, snowboardReleaseYear, snowboardPrice
+      brandName,
+      snowboardName,
+      snowboardReleaseYear,
+      snowboardPrice
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         console.log(res.data);
+        setSnowboard([...snowboard, res.data]);
         setBrandName("");
         setSnowboardName("");
         setSnowboardReleaseYear("");
@@ -27,7 +32,7 @@ const ProductForm = (props) => {
   }
 
   return (
-    <div className='container text-bg-info bg-opacity-50 p-3 w-50 rounded-3 mt-5'>
+    <div className='container text-bg-info bg-opacity-50 p-3 w-50 rounded-3 mt-5 shadow p-3 mb-5 rounded'>
 
       <form onSubmit={submitHandler}>
 

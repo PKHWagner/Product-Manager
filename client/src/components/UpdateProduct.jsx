@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const ProductForm = ({ snowboard, setSnowboard }) => {
 
-  const [brandName, setBrandName] = useState("");
-  const [snowboardName, setSnowboardName] = useState("");
-  const [snowboardReleaseYear, setSnowboardReleaseYear] = useState("");
-  const [snowboardPrice, setSnowboardPrice] = useState("");
+const UpdateProduct = (props) => {
 
-  const submitHandler = (e) => {
+  const { id } = useParams();
+  const [brandName, setBrandName] = useState();
+  const [snowboardName, setSnowboardName] = useState();
+  const [snowboardReleaseYear, setSnowboardReleaseYear] = useState();
+  const [snowboardPrice, setSnowboardPrice] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/products/' + id)
+      .then(res => {
+        setBrandName(res.data.brandName);
+        setSnowboardName(res.data.snowboardName);
+        setSnowboardReleaseYear(res.data.snowboardReleaseYear);
+        setSnowboardPrice(res.data.snowboardPrice);
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  const update = (e) => {
     e.preventDefault();
-
-    axios.post("http://localhost:8000/api/products", {
+    axios.patch('http://localhost:8000/api/products/' + id, {
       brandName,
       snowboardName,
       snowboardReleaseYear,
@@ -19,22 +33,14 @@ const ProductForm = ({ snowboard, setSnowboard }) => {
     })
       .then(res => {
         console.log(res);
-        console.log(res.data);
-        setSnowboard([...snowboard, res.data]);
-        setBrandName("");
-        setSnowboardName("");
-        setSnowboardReleaseYear("");
-        setSnowboardPrice("");
+        navigate("/")
       })
-      .catch((err) => {
-        console.log("Something went wrong --->", err)
-      })
+      .catch(err => console.log(err))
   }
 
   return (
-    <div className='container text-bg-info bg-opacity-50 p-3 w-50 rounded-3 mt-5 shadow p-3 mb-5 rounded'>
-
-      <form onSubmit={submitHandler}>
+    <div className='container text-bg-dark bg-opacity-50 border border-warning border-4 p-3 w-50 rounded-3 mt-5 shadow mb-5 rounded'>
+      <form onSubmit={update}>
 
         <div className='mb-3 text-start'>
           <label htmlFor="brandName" className='form-label'>Brand Name</label>
@@ -58,13 +64,12 @@ const ProductForm = ({ snowboard, setSnowboard }) => {
         </div>
 
         <div className='mb-3 text-end'>
-          <button type='submit' className='btn btn-outline-primary'>Submit</button>
+          <button type='submit' className='btn btn-outline-warning'>Update</button>
         </div>
 
       </form>
-
     </div>
   )
 }
 
-export default ProductForm;
+export default UpdateProduct

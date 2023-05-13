@@ -7,6 +7,10 @@ const Main = () => {
 
   const [snowboard, setSnowboard] = useState([]);
 
+  const removeFromDom = id => {
+    setSnowboard(snowboard.filter(snowboard => snowboard._id !== id))
+  }
+
   return (
     <div>
       <div className='container w-75'>
@@ -14,7 +18,7 @@ const Main = () => {
         <ProductForm snowboard={snowboard} setSnowboard={setSnowboard} />
         <hr />
       </div>
-      <ProductView snowboard={snowboard} setSnowboard={setSnowboard} />
+      <ProductView snowboard={snowboard} setSnowboard={setSnowboard} removeFromDom={removeFromDom} />
     </div>
   )
 }

@@ -3,14 +3,8 @@ import axios from 'axios';
 import ProductForm from "../components/ProductForm";
 import ProductView from "../components/ProductView";
 
-const Main = () => {
-
-  const [snowboard, setSnowboard] = useState([]);
-
-  const removeFromDom = id => {
-    setSnowboard(snowboard.filter(snowboard => snowboard._id !== id))
-  }
-
+const Main = ({ snowboard, setSnowboard, removeFromDom }) => {
+  console.log("MAIN ---->", snowboard)
   return (
     <div>
       <div className='container w-75'>
